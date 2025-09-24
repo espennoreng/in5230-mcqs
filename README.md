@@ -44,3 +44,10 @@ In the quiz app:
 - Select topics, set the number of questions, and click “Load questions”.
 - Click “Start quiz” to begin. You can shuffle questions and choices.
 - Submit each answer to see feedback and explanations. Review results at the end.
+
+### Sources for each question
+- The quiz shows a “Sources” section per question with links to the relevant course pages for that topic.
+- To attach a specific source to a question, add a line in the markdown directly under the question like:
+	- `Sources: https://dhis2-app-course.ifi.uio.no/learn/getting-started/course-introduction/front-vs-back-end/`
+	- You can list multiple links separated by space, comma, or semicolon.
+- If a question has no explicit `Source(s):` line, the quiz will show curated topic-level links instead.

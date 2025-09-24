@@ -106,6 +106,8 @@ input[type="radio"] { width: 16px; height: 16px; }
 .choice.incorrect .letter { background: rgba(239,68,68,.18); color: #fecaca; }
 
 .explanation { border-left: 3px solid var(--warning); padding: 10px 12px; background: rgba(245,158,11,.1); border-radius: 6px; }
+.sources { margin-top: 10px; }
+.sources a { color: var(--accent); }
 
 .review ol, .review ul { margin-left: 20px; }
 .review-item { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed var(--border); }

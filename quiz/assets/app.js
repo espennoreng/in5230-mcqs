@@ -11,6 +11,40 @@ const TOPICS = [
   { id: 'dhis2', label: 'DHIS2', path: '../mcqs/dhis2.md' },
 ];
 
+// Curated topic sources from the DHIS2 App Course
+const TOPIC_SOURCES = {
+  'getting-started': [
+    { label: 'Server vs Client', url: 'https://dhis2-app-course.ifi.uio.no/learn/getting-started/course-introduction/server-vs-client/' },
+    { label: 'Front-end vs Back-end', url: 'https://dhis2-app-course.ifi.uio.no/learn/getting-started/course-introduction/front-vs-back-end/' },
+    { label: 'Dev Environment Intro', url: 'https://dhis2-app-course.ifi.uio.no/learn/getting-started/development-setup/introduction/' },
+  ],
+  'html-css': [
+    // Some section root pages respond 404; keeping umbrella links minimal
+    { label: 'Essential Front-end (root)', url: 'https://dhis2-app-course.ifi.uio.no/learn/essential-front-end-development/' },
+  ],
+  'javascript-part-1': [
+    { label: 'JS Introduction (Variables)', url: 'https://dhis2-app-course.ifi.uio.no/learn/javascript/variables/' },
+    { label: 'JS Functions', url: 'https://dhis2-app-course.ifi.uio.no/learn/javascript/functions/' },
+  ],
+  'javascript-part-2': [
+    { label: 'JS Data Types', url: 'https://dhis2-app-course.ifi.uio.no/learn/javascript/data-types/' },
+    { label: 'Control flow', url: 'https://dhis2-app-course.ifi.uio.no/learn/javascript/control-flow/conditionals/' },
+  ],
+  'javascript-part-3': [
+    { label: 'Asynchronous JS', url: 'https://dhis2-app-course.ifi.uio.no/learn/javascript/async/introduction/' },
+    { label: 'Fetching external data', url: 'https://dhis2-app-course.ifi.uio.no/learn/javascript/fetch/introduction/' },
+    { label: 'Manipulating documents (DOM)', url: 'https://dhis2-app-course.ifi.uio.no/learn/javascript/manipulating-documents/introduction/' },
+  ],
+  'react': [
+    { label: 'React (root)', url: 'https://dhis2-app-course.ifi.uio.no/learn/react/' },
+  ],
+  'dhis2': [
+    { label: 'Introduction to DHIS2', url: 'https://dhis2-app-course.ifi.uio.no/learn/dhis2/introduction/' },
+    { label: 'Getting started with DHIS2 development', url: 'https://dhis2-app-course.ifi.uio.no/learn/dhis2/getting-started/' },
+    { label: 'App development guides', url: 'https://dhis2-app-course.ifi.uio.no/learn/dhis2/app-development-guides/' },
+  ],
+};
+
 const state = {
   loadedByTopic: new Map(), // topicId -> { questions: Question[] }
   pool: [], // Question[] selected for this run
@@ -26,7 +60,7 @@ const state = {
 };
 
 /** @typedef {{text: string, isCorrect: boolean, originalLetter: string}} Choice */
-/** @typedef {{stem: string, choices: Choice[], explanation: string, topicId: string}} Question */
+/** @typedef {{stem: string, choices: Choice[], explanation: string, topicId: string, sources?: {label: string, url: string}[]}} Question */
 
 const $ = sel => document.querySelector(sel);
 const $$ = sel => Array.from(document.querySelectorAll(sel));
@@ -90,7 +124,7 @@ function parseMCQMarkdown(md, topicId) {
   const lines = md.split(/\r?\n/);
   /** @type {Question[]} */
   const questions = [];
-  let current = null; // { stem, choices, explanation, answerLetter }
+  let current = null; // { stem, choices, explanation, answerLetter, sources }
   let inExplanation = false;
 
   function commit() {
@@ -102,6 +136,7 @@ function parseMCQMarkdown(md, topicId) {
         choices: current.choices,
         explanation: (current.explanation || '').trim(),
         topicId,
+        sources: current.sources && current.sources.length ? current.sources : undefined,
       });
     }
     current = null;
@@ -116,7 +151,7 @@ function parseMCQMarkdown(md, topicId) {
     const qMatch = line.match(/^(\d+)\)\s*(.+)$/);
     if (qMatch) {
       commit();
-      current = { stem: qMatch[2], choices: [], explanation: '', answerLetter: null };
+      current = { stem: qMatch[2], choices: [], explanation: '', answerLetter: null, sources: [] };
       continue;
     }
 
@@ -144,6 +179,20 @@ function parseMCQMarkdown(md, topicId) {
     if (eMatch) {
       current.explanation = eMatch[1] ?? '';
       inExplanation = true;
+      continue;
+    }
+
+    const sMatch = line.match(/^Sources?:\s*(.*)$/i);
+    if (sMatch) {
+      const rest = sMatch[1] || '';
+      const parts = rest.split(/[;,]\s*|\s+/).filter(Boolean);
+      for (const p of parts) {
+        // basic URL detection
+        if (/^https?:\/\//i.test(p)) {
+          current.sources.push({ label: p, url: p });
+        }
+      }
+      inExplanation = false;
       continue;
     }
 
@@ -202,6 +251,27 @@ function renderQuestion() {
 
   $('#explanation').classList.add('hidden');
   $('#explanation').textContent = '';
+
+  // Render sources for this question (per-topic curated links)
+  const sources = (q.sources && q.sources.length ? q.sources : TOPIC_SOURCES[q.topicId] || []);
+  const sourcesBlock = $('#sources');
+  const sourcesList = $('#sourcesList');
+  sourcesList.innerHTML = '';
+  if (sources.length) {
+    sources.forEach(s => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = s.url;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = s.label;
+      li.appendChild(a);
+      sourcesList.appendChild(li);
+    });
+    sourcesBlock.classList.remove('hidden');
+  } else {
+    sourcesBlock.classList.add('hidden');
+  }
 
   $('#submitBtn').disabled = false;
   $('#nextBtn').disabled = true;
