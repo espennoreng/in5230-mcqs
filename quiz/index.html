@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>IN5320 MCQ Quiz</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>IN5320 MCQ Quiz</h1>
+      <p class="subtitle">Practice with questions from your MCQ markdown files</p>
+    </header>
+
+    <main class="app-main">
+      <section id="setup" class="card">
+        <h2>Setup</h2>
+        <div id="topics" class="topics"></div>
+        <div class="controls">
+          <label>
+            Number of questions
+            <input id="questionCount" type="number" min="1" value="10" />
+          </label>
+          <label>
+            <input id="shuffleQuestions" type="checkbox" checked />
+            Shuffle questions
+          </label>
+          <label>
+            <input id="shuffleChoices" type="checkbox" checked />
+            Shuffle choices
+          </label>
+        </div>
+        <div class="actions">
+          <button id="loadBtn" class="primary">Load questions</button>
+          <button id="startBtn" class="secondary" disabled>Start quiz</button>
+        </div>
+        <div id="loadStatus" class="status"></div>
+      </section>
+
+      <section id="quiz" class="card hidden">
+        <div class="quiz-header">
+          <div id="progressText">Question 1 / 1</div>
+          <div class="spacer"></div>
+          <div id="scoreText">Score: 0</div>
+        </div>
+
+        <h2 id="questionStem" class="stem"></h2>
+        <ul id="choices" class="choices"></ul>
+
+        <div id="explanation" class="explanation hidden"></div>
+
+        <div class="actions">
+          <button id="submitBtn" class="primary">Submit</button>
+          <button id="nextBtn" class="secondary" disabled>Next</button>
+          <button id="revealBtn" class="ghost">Reveal answer</button>
+        </div>
+      </section>
+
+      <section id="results" class="card hidden">
+        <h2>Results</h2>
+        <p id="resultsSummary"></p>
+        <div class="actions">
+          <button id="retryBtn" class="primary">Retry with same settings</button>
+          <button id="restartBtn" class="secondary">Back to setup</button>
+        </div>
+        <details class="review">
+          <summary>Review answered questions</summary>
+          <ol id="reviewList"></ol>
+        </details>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <a href="../README.md" target="_blank" rel="noopener">Open README</a>
+      <span>•</span>
+      <a href="../mcqs/" target="_blank" rel="noopener">View MCQs</a>
+    </footer>
+
+    <script src="assets/app.js" type="module"></script>
+  </body>
+  </html>

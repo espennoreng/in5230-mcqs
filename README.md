@@ -23,3 +23,24 @@ Answer key: Each question includes the correct answer and a brief explanation.
 
 Tip: Use your editor’s outline and search to navigate by section.
 # in5230-mcqs
+
+## How to run the interactive quiz
+
+You can practice these MCQs in a browser using the quiz app included in this workspace.
+
+Option A: Open directly (some browsers block local fetch of files)
+- Open `quiz/index.html` in your browser. If questions don't load due to local file restrictions, use Option B.
+
+Option B: Serve locally
+- Use any static file server from the `exam-prep` folder to allow the app to fetch the markdown files.
+
+Examples:
+- Python 3: `python3 -m http.server 8000`
+- Node (if installed): `npx http-server -p 8000`
+
+Then open: `http://localhost:8000/quiz/`
+
+In the quiz app:
+- Select topics, set the number of questions, and click “Load questions”.
+- Click “Start quiz” to begin. You can shuffle questions and choices.
+- Submit each answer to see feedback and explanations. Review results at the end.
