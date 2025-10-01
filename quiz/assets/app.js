@@ -19,8 +19,11 @@ const TOPIC_SOURCES = {
     { label: 'Dev Environment Intro', url: 'https://dhis2-app-course.ifi.uio.no/learn/getting-started/development-setup/introduction/' },
   ],
   'html-css': [
-    // Some section root pages respond 404; keeping umbrella links minimal
-    { label: 'Essential Front-end (root)', url: 'https://dhis2-app-course.ifi.uio.no/learn/essential-front-end-development/' },
+    // Course section index returns 404 for many; use MDN canonical references
+    { label: 'MDN Learn HTML', url: 'https://developer.mozilla.org/en-US/docs/Learn/HTML' },
+    { label: 'MDN Learn CSS', url: 'https://developer.mozilla.org/en-US/docs/Learn/CSS' },
+    { label: 'MDN Flexbox', url: 'https://developer.mozilla.org/en-US/docs/Web/CSS/flex' },
+    { label: 'MDN Grid', url: 'https://developer.mozilla.org/en-US/docs/Web/CSS/grid' },
   ],
   'javascript-part-1': [
     { label: 'JS Introduction (Variables)', url: 'https://dhis2-app-course.ifi.uio.no/learn/javascript/variables/' },
@@ -36,12 +39,18 @@ const TOPIC_SOURCES = {
     { label: 'Manipulating documents (DOM)', url: 'https://dhis2-app-course.ifi.uio.no/learn/javascript/manipulating-documents/introduction/' },
   ],
   'react': [
-    { label: 'React (root)', url: 'https://dhis2-app-course.ifi.uio.no/learn/react/' },
+    // Course React root is currently 403; link to official React docs
+    { label: 'React Learn', url: 'https://react.dev/learn' },
+    { label: 'JSX: Describing the UI', url: 'https://react.dev/learn/describing-the-ui' },
+    { label: 'State: A Component\'s Memory', url: 'https://react.dev/learn/state-a-components-memory' },
+    { label: 'Hooks API Reference', url: 'https://react.dev/reference/react' },
   ],
   'dhis2': [
     { label: 'Introduction to DHIS2', url: 'https://dhis2-app-course.ifi.uio.no/learn/dhis2/introduction/' },
     { label: 'Getting started with DHIS2 development', url: 'https://dhis2-app-course.ifi.uio.no/learn/dhis2/getting-started/' },
     { label: 'App development guides', url: 'https://dhis2-app-course.ifi.uio.no/learn/dhis2/app-development-guides/' },
+    { label: 'App dev: Fetching data', url: 'https://dhis2-app-course.ifi.uio.no/learn/dhis2/app-development-guides/fetching-data/' },
+    { label: 'App dev: Using the dataStore', url: 'https://dhis2-app-course.ifi.uio.no/learn/dhis2/app-development-guides/datastore/' },
   ],
 };
 
@@ -59,7 +68,7 @@ const state = {
   history: [], // { q, selectedIndex, correctIndex, correct }
 };
 
-/** @typedef {{text: string, isCorrect: boolean, originalLetter: string}} Choice */
+/** @typedef {{text: string, isCorrect: boolean, originalLetter: string, why?: string}} Choice */
 /** @typedef {{stem: string, choices: Choice[], explanation: string, topicId: string, sources?: {label: string, url: string}[]}} Question */
 
 const $ = sel => document.querySelector(sel);
@@ -74,6 +83,20 @@ function shuffleInPlace(arr) {
 }
 
 function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+
+function updateEstimate() {
+  // Estimate 45 seconds per question as a default pace
+  const perQSec = 45;
+  const nInput = document.getElementById('questionCount');
+  if (!nInput) return;
+  const n = clamp(Number(nInput.value) || 1, 1, 10000);
+  const totalSec = n * perQSec;
+  const mm = Math.floor(totalSec / 60);
+  const ss = totalSec % 60;
+  const text = `~${mm}m ${ss}s`;
+  const el = document.getElementById('estimatedTime');
+  if (el) el.textContent = text;
+}
 
 function renderTopics() {
   const container = $('#topics');
@@ -160,7 +183,7 @@ function parseMCQMarkdown(md, topicId) {
     const cMatch = line.match(/^([A-D])\.\s*(.+)$/);
     if (cMatch) {
       const [, letter, text] = cMatch;
-      current.choices.push({ text, isCorrect: false, originalLetter: letter });
+      current.choices.push({ text, isCorrect: false, originalLetter: letter, why: undefined });
       inExplanation = false;
       continue;
     }
@@ -179,6 +202,16 @@ function parseMCQMarkdown(md, topicId) {
     if (eMatch) {
       current.explanation = eMatch[1] ?? '';
       inExplanation = true;
+      continue;
+    }
+
+    const whyMatch = line.match(/^Why\s+([A-Da-d])\s*:\s*(.*)$/);
+    if (whyMatch) {
+      const letter = whyMatch[1].toUpperCase();
+      const reason = whyMatch[2] || '';
+      const ch = current.choices.find(c => c.originalLetter === letter);
+      if (ch) ch.why = (ch.why ? ch.why + ' ' : '') + reason;
+      inExplanation = false;
       continue;
     }
 
@@ -296,8 +329,27 @@ function gradeCurrent() {
 
   if (correct) state.score += 1;
   const exp = $('#explanation');
-  exp.textContent = q.explanation || (correct ? 'Correct.' : '');
-  exp.classList.toggle('hidden', !exp.textContent);
+  const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+  const correctLetter = letters[correctIndex] || '';
+  const yourLetter = selectedIndex >= 0 ? (letters[selectedIndex] || '') : '';
+  const parts = [];
+  const correctChoice = q.choices[correctIndex];
+  parts.push(`Correct answer: ${correctLetter} — ${correctChoice?.text ?? ''}`.trim());
+  if (yourLetter && yourLetter !== correctLetter) parts.push(`Your answer: ${yourLetter}.`);
+  // Add reason for correct and, if selected wrong, the reason for that one
+  if (correctChoice?.why) parts.push(`Why ${correctLetter} is correct: ${correctChoice.why}`);
+  if (!correct && selectedIndex >= 0) {
+    const chosen = q.choices[selectedIndex];
+    if (chosen?.why) {
+      parts.push(`Why ${yourLetter} is not correct: ${chosen.why}`);
+    } else if (chosen) {
+      parts.push(`Selected: ${yourLetter} — ${chosen.text}`);
+    }
+  }
+  if (q.explanation) parts.push(`Explanation: ${q.explanation}`);
+  const msg = parts.join('\n');
+  exp.textContent = msg;
+  exp.classList.toggle('hidden', !msg);
 
   $('#submitBtn').disabled = true;
   $('#nextBtn').disabled = false;
@@ -406,6 +458,7 @@ async function loadSelectedTopics() {
   const qCount = $('#questionCount');
   qCount.max = String(Math.max(1, total));
   qCount.value = String(Math.min(Number(qCount.value) || 10, total));
+  updateEstimate();
 
   updateStartEnabled();
 }
@@ -417,7 +470,9 @@ function hookUI() {
   $('#questionCount').addEventListener('input', (e) => {
     const val = Number(e.target.value) || 1;
     state.settings.count = Math.max(1, val);
+    updateEstimate();
   });
+  updateEstimate();
   $('#shuffleQuestions').addEventListener('change', (e) => {
     state.settings.shuffleQuestions = e.target.checked;
   });

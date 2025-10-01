@@ -1,4 +1,4 @@
-JavaScript Part 2 — Arrays, Objects, Control Flow (30)
+JavaScript Part 2 — Arrays, Objects, Control Flow (35)
 
 1) Which Array method transforms each element and returns a new array?
    A. forEach
@@ -239,3 +239,58 @@ JavaScript Part 2 — Arrays, Objects, Control Flow (30)
     D. undefined
     Answer: B
     Explanation: Picks falsy branch.
+
+31) According to the course, when should you prefer functional style over imperative loops?
+    A. Never, always use for loops
+    B. When working with array transformations, filtering, and reduction
+    C. Only when performance doesn't matter
+    D. When you need to iterate exactly 3 times
+    Answer: B
+    Explanation: Functional methods like map, filter, and reduce are often shorter, easier to read, and each has a clear, specific purpose.
+    Why A: Functional style is recommended for array operations
+    Why C: Performance is often comparable; readability is the key benefit
+    Why D: The iteration count doesn't determine the style choice
+
+32) What is the main advantage of functional array methods over imperative loops according to the course?
+    A. They execute faster
+    B. They are unique and predictable - each does one thing, making code easier to understand
+    C. They use less memory
+    D. They can only be used with numbers
+    Answer: B
+    Explanation: Each functional method (map, filter, reduce, find) has a single clear purpose, unlike imperative loops which require reading every line to understand intent.
+    Why A: Performance is similar; the advantage is clarity
+    Why C: Memory usage is comparable
+    Why D: Functional methods work with any data types
+
+33) What does the `break` statement do in a loop?
+    A. Skips the current iteration and continues with the next one
+    B. Exits the entire loop immediately
+    C. Restarts the loop from the beginning
+    D. Pauses the loop for 1 second
+    Answer: B
+    Explanation: The break statement terminates the loop entirely and continues execution after the loop.
+    Why A: This describes continue, not break
+    Why C: break doesn't restart loops
+    Why D: break executes immediately without delays
+
+34) What does the `continue` statement do in a loop?
+    A. Exits the entire loop immediately
+    B. Stops the current iteration and proceeds to the next iteration
+    C. Breaks out of nested loops
+    D. Continues executing after the loop ends
+    Answer: B
+    Explanation: continue skips the remaining code in the current iteration and moves to the next iteration of the loop.
+    Why A: This describes break, not continue
+    Why C: continue only affects the current loop level
+    Why D: continue operates within the loop, not after it
+
+35) When is an imperative loop (for/while) better than functional style according to the course?
+    A. Never, functional is always better
+    B. When the problem involves custom step increments or conditions that don't fit array operations
+    C. Only for arrays
+    D. When you need exactly one iteration
+    Answer: B
+    Explanation: The course example of summing 1, 4, 7, ...  up to 100 (step of 3) is easy with for loops but messy with functional style.
+    Why A: The course explicitly shows examples where imperative is better
+    Why C: Imperative loops work with many patterns beyond arrays
+    Why D: Single iterations can use either style

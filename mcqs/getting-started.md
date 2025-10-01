@@ -1,4 +1,123 @@
-Getting started — MCQs (20)
+Getting started — MCQs (30)
+
+Sources: https://dhis2-app-course.ifi.uio.no/learn/getting-started/course-introduction/ https://dhis2-app-course.ifi.uio.no/lea20) What does "caching" of external JS files by the browser achieve?
+    A. Prevents code execution on later visits
+    B. Avoids refetching unchanged files, improving load performance
+    C. Disables minification
+    D. Forces hard reloads
+    Answer: B
+    Explanation: Cached resources reduce network usage and speed up navigation.
+
+21) What is the primary purpose of a dedicated code editor in web development?
+    A. To execute JavaScript code without a browser
+    B. To provide syntax highlighting, code completion, and development tools
+    C. To replace the need for version control systems
+    D. To compile HTML to machine code
+    Answer: B
+    Explanation: Code editors offer highlighting, completion, extensions, and version control integration to improve productivity.
+    Why A: While some editors can run code, this is not their primary purpose
+    Why C: Editors complement but don't replace version control
+    Why D: HTML is interpreted, not compiled to machine code
+
+22) What is Git primarily used for in web development?
+    A. Running JavaScript code
+    B. Tracking code changes over time and enabling team collaboration
+    C. Styling web pages
+    D. Compiling TypeScript
+    Answer: B
+    Explanation: Git is a distributed version control system that tracks modifications and enables branching and merging for collaboration.
+    Why A: Git doesn't execute code
+    Why C: CSS handles styling, not Git
+    Why D: TypeScript compilation is handled by tsc
+
+23) What is NodeJS?
+    A. A web browser
+    B. A JavaScript interpreter/runtime environment for executing JS outside browsers
+    C. A CSS framework
+    D. A database management system
+    Answer: B
+    Explanation: NodeJS reads JavaScript files and converts them to machine code that computers can run, enabling server-side JavaScript.
+    Why A: NodeJS is not a browser, though both can execute JS
+    Why C: NodeJS is a runtime, not a styling framework
+    Why D: NodeJS can connect to databases but isn't a database itself
+
+24) What does npm stand for and what is its primary purpose?
+    A. Node Package Manager - manages JavaScript dependencies
+    B. New Programming Method - a coding paradigm
+    C. Network Protocol Manager - handles HTTP requests
+    D. Node Performance Monitor - tracks application speed
+    Answer: A
+    Explanation: npm is the default package manager for NodeJS, used to install, update, and manage project dependencies.
+    Why B: npm is a tool, not a programming method
+    Why C: npm manages packages, not network protocols
+    Why D: While performance can be monitored, npm's primary role is dependency management
+
+25) Which feature is NOT typically provided by modern code editors?
+    A. Syntax highlighting for various programming languages
+    B. Version control integration (e.g., Git)
+    C. Automatic server infrastructure provisioning
+    D. Code completion and IntelliSense
+    Answer: C
+    Explanation: While editors integrate with development tools, automatic infrastructure provisioning is typically handled by separate DevOps tools.
+    Why A: Syntax highlighting is a core editor feature
+    Why B: Git integration is standard in modern editors
+    Why D: Code completion helps developers write code faster
+
+26) What is Yarn in the context of JavaScript development?
+    A. A CSS grid system
+    B. An alternative package manager to npm
+    C. A JavaScript testing framework
+    D. A type of database
+    Answer: B
+    Explanation: Yarn is a package manager similar to npm, offering dependency management with some performance and feature differences.
+    Why A: Yarn manages packages, not CSS layouts
+    Why C: Testing frameworks like Jest are separate tools
+    Why D: Yarn doesn't store application data
+
+27) Why is version control important in software development?
+    A. It makes code run faster
+    B. It tracks changes, enables rollback, and facilitates team collaboration
+    C. It automatically fixes bugs
+    D. It eliminates the need for testing
+    Answer: B
+    Explanation: Version control systems like Git maintain history, allow reverting changes, and enable multiple developers to work on different features simultaneously through branching.
+    Why A: Version control doesn't affect runtime performance
+    Why C: Developers must manually fix bugs; version control only tracks changes
+    Why D: Testing remains essential regardless of version control
+
+28) What is the purpose of the Git branching system?
+    A. To delete old code permanently
+    B. To allow developers to work on separate tasks and merge changes later
+    C. To compress files
+    D. To deploy applications automatically
+    Answer: B
+    Explanation: Branching lets developers create isolated workspaces for features or fixes, which can later be merged into the main branch.
+    Why A: Git preserves history; branches don't delete code
+    Why C: Branching is about code organization, not compression
+    Why D: Deployment is typically handled by CI/CD tools
+
+29) Which statement about code editor extensibility is correct?
+    A. Extensions cannot modify editor behavior
+    B. Extensions can add new features like language support, debugging tools, and integrations
+    C. Only one extension can be installed at a time
+    D. Extensions only change the editor's color theme
+    Answer: B
+    Explanation: Modern editors support extensions that enhance functionality, from syntax support to linting, debugging, and API integrations.
+    Why A: Extensions specifically modify and extend editor capabilities
+    Why C: Multiple extensions can work together
+    Why D: Extensions provide far more than just themes
+
+30) Why is NodeJS required for modern JavaScript application development?
+    A. To run JavaScript applications in the browser
+    B. To execute build tools, development servers, and manage dependencies locally
+    C. To replace HTML and CSS
+    D. To compile JavaScript to assembly language
+    Answer: B
+    Explanation: NodeJS enables development tooling like bundlers (Webpack, Vite), transpilers (Babel), and package managers (npm/Yarn) to run locally.
+    Why A: Browsers execute JS in the browser; NodeJS runs JS locally
+    Why C: NodeJS complements HTML/CSS, doesn't replace them
+    Why D: NodeJS interprets/compiles to machine code, not assembly
+ng-started/development-setup/
 
 1) Which statement best describes the difference between client and server in web apps?
    A. Both run in the browser and share memory

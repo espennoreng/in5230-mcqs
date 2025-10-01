@@ -1,4 +1,4 @@
-DHIS2 — MCQs (40)
+DHIS2 — MCQs (50)
 
 Platform, Tooling, Runtime, UI, Data Operations
 
@@ -325,3 +325,113 @@ App Guides and Concepts
     D. Deployment pipeline secrets store
     Answer: B
     Explanation: Client bundles are public; use server-side secrets.
+
+41) What are the two main categories of DHIS2 application development tools?
+    A. Front-end and back-end tools
+    B. Build-time developer tools and runtime libraries
+    C. Database tools and UI tools
+    D. Testing tools and deployment tools
+    Answer: B
+    Explanation: Build-time tools (App Platform, d2 CLI) run locally during development, while runtime libraries (App Runtime, UI Library) run in the browser.
+    Why A: While related to web development, DHIS2 specifically organizes tools by when they execute
+    Why C: Database and UI are features, not tool categories
+    Why D: Testing and deployment are included in the categories but not the main division
+
+42) What does the d2 CLI enable developers to do?
+    A. Execute App Platform scripts and run local DHIS2 instances via Docker
+    B. Only compile TypeScript code
+    C. Replace the need for React
+    D. Directly modify the DHIS2 database
+    Answer: A
+    Explanation: d2 CLI is the command-line interface that executes App Platform scripts, runs dev servers, and can spin up local DHIS2 instances for testing.
+    Why B: TypeScript compilation is one feature, but d2 does much more
+    Why C: d2 is a build tool that works with React
+    Why D: Apps interact with DHIS2 via API, not direct database access
+
+43) What is the primary purpose of the DHIS2 App Platform?
+    A. To provide a database management system
+    B. To automate build scripts similar to create-react-app for DHIS2 apps
+    C. To deploy apps to production servers
+    D. To write CSS frameworks
+    Answer: B
+    Explanation: App Platform provides build scripts that automate creating, developing, and publishing DHIS2 applications, similar to how create-react-app works for React apps.
+    Why A: DHIS2 core manages the database
+    Why C: Deployment is separate; App Platform focuses on development and building
+    Why D: UI Library provides components; App Platform handles builds
+
+44) Which statement about the DHIS2 App Runtime is correct?
+    A. It only runs during the build process
+    B. It provides hooks like useDataQuery to query the DHIS2 API at runtime in the browser
+    C. It replaces React in DHIS2 apps
+    D. It only handles CSS styling
+    Answer: B
+    Explanation: App Runtime is a runtime library that executes in the browser, providing React hooks to interact with the DHIS2 Web API.
+    Why A: Runtime libraries execute when the app runs, not during build
+    Why C: App Runtime works with React, doesn't replace it
+    Why D: UI Library handles styling; App Runtime handles data
+
+45) What is the purpose of the DHIS2 UI Library?
+    A. To execute database queries
+    B. To provide standard React components aligned with the DHIS2 design system
+    C. To compile JavaScript code
+    D. To manage server infrastructure
+    Answer: B
+    Explanation: UI Library is part of the DHIS2 design system, offering reusable React components that maintain consistency across DHIS2 applications.
+    Why A: App Runtime handles queries
+    Why C: Build tools handle compilation
+    Why D: Infrastructure is managed separately
+
+46) According to the course, where can DHIS2 apps be downloaded from?
+    A. Only from GitHub
+    B. The DHIS2 App Hub
+    C. npm registry only
+    D. Apple App Store
+    Answer: B
+    Explanation: DHIS2 App Hub (apps.dhis2.org) is the official marketplace where third-party developers can publish and users can download DHIS2 applications.
+    Why A: While source code may be on GitHub, the app distribution happens via App Hub
+    Why C: npm is for JavaScript packages, not complete DHIS2 apps
+    Why D: DHIS2 apps are web applications, not native mobile apps
+
+47) What does the DHIS2 Data Query Playground help developers do?
+    A. Write CSS styles
+    B. Test and experiment with API queries without coding UI
+    C. Deploy apps to production
+    D. Create database schemas
+    Answer: B
+    Explanation: The Query Playground is a developer tool that allows testing DHIS2 API queries interactively, helping developers understand the API before implementing queries in code.
+    Why A: Playground focuses on data queries, not styling
+    Why C: Deployment is a separate process
+    Why D: DHIS2 core manages data schemas
+
+48) Which DHIS2 App Runtime hooks are specifically mentioned in the course?
+    A. useState and useEffect only
+    B. useDataQuery, useDataMutation, useAlert, and useConfig
+    C. useContext and useReducer only
+    D. useRouter and useNavigate
+    Answer: B
+    Explanation: The course covers these DHIS2-specific hooks: useDataQuery (fetch), useDataMutation (write), useAlert (notifications), and useConfig (instance details).
+    Why A: These are React hooks, not DHIS2-specific
+    Why C: While React hooks, not the DHIS2 App Runtime hooks taught in course
+    Why D: These are routing hooks, not DHIS2 App Runtime hooks
+
+49) What form library does the DHIS2 course use for building forms?
+    A. Formik
+    B. React Final Form
+    C. Redux Form
+    D. Pure HTML forms only
+    Answer: B
+    Explanation: The course teaches React Final Form, which the DHIS2 UI Component library has integrated for handling form inputs and validation.
+    Why A: Formik is popular but not what DHIS2 UI uses
+    Why C: Redux Form is outdated; course uses Final Form
+    Why D: React-based forms with validation are preferred
+
+50) According to the course, what are the two main components of the example application?
+    A. Login and logout screens
+    B. A table displaying fetched data (Browse) and a form for modifying data (Insert)
+    C. A dashboard and settings page
+    D. User management and reporting
+    Answer: B
+    Explanation: The course project builds an app with a Browse component (table showing DHIS2 data) and an Insert component (form for data entry/modification).
+    Why A: The course focuses on data display and entry, not authentication
+    Why C: While common in apps, the course specifically teaches Browse and Insert
+    Why D: These are advanced features; the course covers fundamentals
