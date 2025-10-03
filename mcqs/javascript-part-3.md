@@ -1,76 +1,76 @@
 JavaScript Part 3 — Async, Fetch, DOM (30)
 
 1) JavaScript concurrency model in browsers is:
-   A. Multi-threaded JS by default
-   B. Single-threaded with an event loop and task/microtask queues
-   C. Only synchronous
-   D. Parallel threads per function
-   Answer: B
-   Explanation: Event loop processes callbacks after stack clears.
+    A. Multi-threaded JS by default
+    B. Single-threaded with an event loop and task/microtask queues
+    C. Only synchronous
+    D. Parallel threads per function
+    Answer: B
+    Explanation: JavaScript runs on a single main thread but uses an event loop and queues (tasks and microtasks) to handle asynchronous callbacks. Understanding this model explains why async work doesn't block UI and how promises vs. setTimeout ordering works.
 
 2) setTimeout(() => console.log('x'), 0) logs:
-   A. Before any synchronous logs
-   B. After the current call stack completes
-   C. At exactly 0ms regardless of load
-   D. Never
-   Answer: B
-   Explanation: Timers queue a task; executed later.
+    A. Before any synchronous logs
+    B. After the current call stack completes
+    C. At exactly 0ms regardless of load
+    D. Never
+    Answer: B
+    Explanation: A zero-delay timer schedules a macrotask that runs after the current call stack finishes and after pending microtasks. It does not run immediately; actual delay may be longer due to browser throttling and load.
 
 3) Promises primarily represent:
-   A. Immediate values
-   B. A proxy for a value that may be available now, later, or never
-   C. DOM nodes
-   D. CSS animations
-   Answer: B
-   Explanation: Promise encapsulates async completion/failure.
+    A. Immediate values
+    B. A proxy for a value that may be available now, later, or never
+    C. DOM nodes
+    D. CSS animations
+    Answer: B
+    Explanation: A Promise is an object representing eventual success or failure of an asynchronous operation. Use `.then/.catch` or `await` to work with the resolved value or error.
 
 4) Async/await is syntactic sugar over:
-   A. Callbacks only
-   B. Promises
-   C. Generators exclusively
-   D. Web Workers
-   Answer: B
-   Explanation: await unwraps Promises.
+    A. Callbacks only
+    B. Promises
+    C. Generators exclusively
+    D. Web Workers
+    Answer: B
+    Explanation: `async`/`await` makes promise-based code look synchronous. An `async` function returns a Promise; `await` pauses execution until the Promise resolves (inside the async function), simplifying control flow and error handling with try/catch.
 
 5) Which is true about fetch API?
-   A. Returns data directly
-   B. Returns a Promise resolving to a Response
-   C. Requires jQuery
-   D. Only works with XML
-   Answer: B
-   Explanation: Use response.json() to parse JSON.
+    A. Returns data directly
+    B. Returns a Promise resolving to a Response
+    C. Requires jQuery
+    D. Only works with XML
+    Answer: B
+    Explanation: `fetch()` returns a Promise that resolves to a `Response` object. To get JSON, call `await response.json()`. Remember to check `response.ok` or `response.status` to handle HTTP errors — fetch doesn't throw on non-2xx statuses.
 
 6) REST commonly uses which HTTP verbs for CRUD?
-   A. GET/POST/PUT/PATCH/DELETE
-   B. FETCH/SEND/UPDATE/REMOVE
-   C. OPEN/CLOSE
-   D. LIST/CREATE/ALTER/DROP
-   Answer: A
-   Explanation: Standard RESTful verbs.
+    A. GET/POST/PUT/PATCH/DELETE
+    B. FETCH/SEND/UPDATE/REMOVE
+    C. OPEN/CLOSE
+    D. LIST/CREATE/ALTER/DROP
+    Answer: A
+    Explanation: RESTful APIs typically map CRUD operations to HTTP methods: GET (read), POST (create), PUT/PATCH (update), DELETE (remove). PATCH is for partial updates; PUT often replaces a resource.
 
 7) JSON stands for:
-   A. JavaScript Object Notation
-   B. Java Serialization Object Notation
-   C. JavaScript Ordered Numbers
-   D. Java Source Object Notation
-   Answer: A
-   Explanation: Text format for data interchange.
+    A. JavaScript Object Notation
+    B. Java Serialization Object Notation
+    C. JavaScript Ordered Numbers
+    D. Java Source Object Notation
+    Answer: A
+    Explanation: JSON is a lightweight, language-agnostic text format for data interchange that resembles JavaScript object literals. Use `JSON.stringify`/`JSON.parse` or `response.json()` to handle JSON.
 
 8) Parsing JSON from fetch response:
-   A. const data = response.body
-   B. const data = await response.json()
-   C. const data = JSON.parse(response)
-   D. response.toJSON()
-   Answer: B
-   Explanation: Response.json() returns a Promise of parsed JSON.
+    A. const data = response.body
+    B. const data = await response.json()
+    C. const data = JSON.parse(response)
+    D. response.toJSON()
+    Answer: B
+    Explanation: `response.json()` is asynchronous and returns a Promise resolving with the parsed JSON. `response.body` is a stream; don't pass the raw Response into `JSON.parse` directly.
 
 9) DOM stands for:
-   A. Document Object Model
-   B. Data Object Map
-   C. Document Oriented Module
-   D. Dynamic Object Mesh
-   Answer: A
-   Explanation: In-memory tree representation of a page.
+    A. Document Object Model
+    B. Data Object Map
+    C. Document Oriented Module
+    D. Dynamic Object Mesh
+    Answer: A
+    Explanation: The DOM is the in-memory tree representation of the document (HTML). You interact with it via APIs like `document.querySelector`, `element.textContent`, and event listeners.
 
 10) Select the first element matching a CSS selector:
     A. document.getElementByIdAll('x')
@@ -78,7 +78,7 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. document.query('.class')
     D. window.querySelectorAll()
     Answer: B
-    Explanation: querySelector returns first match.
+    Explanation: `document.querySelector(selector)` returns the first matching element. For all matches use `querySelectorAll`, and for single ID use `getElementById` for performance.
 
 11) Add a click handler to a button with id="go":
     A. btn.onClick = fn
@@ -86,7 +86,7 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. document.on('go','click', fn)
     D. window.click('go', fn)
     Answer: B
-    Explanation: addEventListener attaches event handlers.
+    Explanation: `addEventListener` attaches event handlers without overwriting existing ones. `element.onclick = fn` also works but replaces any previous handler.
 
 12) Changing text content of an element:
     A. el.innerHTML = '<script>'
@@ -94,7 +94,7 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. el.value = 'Hello' for any element
     D. el.appendStyle('Hello')
     Answer: B
-    Explanation: textContent sets text safely.
+    Explanation: `textContent` sets or reads text safely and does not parse HTML, preventing XSS. Use `innerHTML` only for trusted HTML snippets.
 
 13) Preventing default form submit:
     A. event.stop()
@@ -102,7 +102,7 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. event.preventDefault()
     D. return false always
     Answer: C
-    Explanation: preventDefault cancels default action.
+    Explanation: `event.preventDefault()` prevents the browser's default action (like form submission). `stopPropagation()` stops the event bubbling; `return false` only works in some older frameworks.
 
 14) Which is a common pitfall with async code?
     A. Believing setTimeout(0) runs before synchronous code
@@ -110,7 +110,7 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. Using CSS
     D. Writing small functions
     Answer: A
-    Explanation: Timers execute after stack clears.
+    Explanation: Expecting asynchronous callbacks to run immediately is a common mistake. Timers and promise callbacks execute after current synchronous code and microtasks, so order matters. Always reason about scheduling when composing async operations.
 
 15) Safely inserting user-provided text into the DOM:
     A. innerHTML with concatenation
@@ -118,15 +118,15 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. document.write
     D. eval()
     Answer: B
-    Explanation: Avoid XSS; don’t set HTML directly from user input.
+    Explanation: Use `textContent` or `createTextNode` to add user text safely. Avoid `innerHTML` with untrusted input because it can enable XSS attacks.
 
 16) With fetch, how do you handle non-2xx statuses?
     A. Fetch throws automatically
     B. Check response.ok or status and branch
-    C. It’s impossible
+    C. Its impossible
     D. Use console.error only
     Answer: B
-    Explanation: Fetch resolves on HTTP errors; you must check status.
+    Explanation: `fetch` resolves the Promise even for HTTP errors; check `response.ok` or `response.status` and handle error cases (throw or return appropriate UI state). Network failures reject the promise.
 
 17) Which header typically indicates JSON payload on POST?
     A. Accept: text/html
@@ -134,7 +134,7 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. Authorization: Bearer
     D. Origin: *
     Answer: B
-    Explanation: Content-Type declares body format.
+    Explanation: `Content-Type: application/json` tells the server the request body is JSON. Also set `Accept` if you require a particular response type. Always stringify objects (`JSON.stringify`) when sending JSON.
 
 18) Debouncing scroll or input events helps with:
     A. Memory leaks
@@ -142,15 +142,15 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. CSS specificity
     D. Access control
     Answer: B
-    Explanation: Debounce/throttle improve performance.
+    Explanation: Debounce and throttle limit how often expensive handlers run (e.g., on resize/scroll/input), improving responsiveness and reducing unnecessary work.
 
 19) The event target property refers to:
-    A. The current listener’s element only
+    A. The current listeners element only
     B. The element that triggered the event
     C. The window
     D. The document always
     Answer: B
-    Explanation: event.target is original source.
+    Explanation: `event.target` is the original element that dispatched the event (useful with event delegation). `event.currentTarget` is the element whose listener is currently running.
 
 20) Which approach updates UI without full page reload?
     A. XMLHttpRequest/fetch with DOM updates (AJAX)
@@ -158,15 +158,15 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. Using only CSS transitions
     D. Server restarts
     Answer: A
-    Explanation: AJAX pattern updates parts of page.
+    Explanation: AJAX (XHR/fetch) allows fetching data and updating parts of the DOM dynamically, enabling single-page-app style interactions without full navigation.
 
 21) Which is true about CORS?
     A. Client can bypass it automatically
     B. Server must allow origins via headers
-    C. It’s a CSS feature
+    C. Its a CSS feature
     D. Only applies to images
     Answer: B
-    Explanation: Cross-Origin Resource Sharing controlled by server.
+    Explanation: CORS is enforced by browsers: servers must include appropriate `Access-Control-Allow-Origin` and related headers to permit cross-origin requests. Clients cannot bypass CORS without server cooperation or proxying.
 
 22) A good practice when manipulating lists in the DOM repeatedly is to:
     A. Force synchronous layouts
@@ -174,7 +174,7 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. Use alert()
     D. Set innerHTML in a loop thousands of times
     Answer: B
-    Explanation: Reduces reflows and improves performance.
+    Explanation: Build content off-DOM (DocumentFragment) or in-memory and append once to minimize reflows/repaints and improve performance. Avoid frequent direct DOM mutations in loops.
 
 23) Async function error handling uses:
     A. try/catch around await or .catch on the Promise
@@ -182,7 +182,7 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. Synchronous catch only
     D. Not needed
     Answer: A
-    Explanation: Handle rejections/errors with try/catch or promise chains.
+    Explanation: Use try/catch inside async functions to handle awaited Promise rejections, or attach `.catch()` to Promises. Always handle errors to avoid unhandled rejections.
 
 24) The Response.json() method:
     A. Is synchronous
@@ -190,7 +190,7 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. Mutates response
     D. Only works in Node
     Answer: B
-    Explanation: Parsing is async.
+    Explanation: `response.json()` returns a Promise because parsing may be asynchronous. Use `await response.json()` to get the parsed object.
 
 25) A DOMContentLoaded event fires when:
     A. All images and styles finish loading
@@ -198,7 +198,7 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. The service worker is ready
     D. After onload only
     Answer: B
-    Explanation: DOM ready before all subresources.
+    Explanation: `DOMContentLoaded` fires when the initial HTML document is parsed and DOM is built; it does not wait for images/stylesheets. Use `load` if you need all resources loaded.
 
 26) To read or change classes on an element programmatically:
     A. el.style.className
@@ -206,7 +206,7 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. el.classes()
     D. el.setAttribute('styles','')
     Answer: B
-    Explanation: classList API is convenient and safe.
+    Explanation: `element.classList` offers `add`, `remove`, `toggle`, and `contains` methods for safe class manipulation. `className` works but requires string manipulation.
 
 27) Which is a safe pattern for updating many rows from fetched JSON?
     A. Build HTML strings and eval
@@ -214,7 +214,7 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. Insert one row at a time with synchronous layout forced
     D. Use alert in a loop
     Answer: B
-    Explanation: Batching avoids excessive reflow/paint.
+    Explanation: Create DOM nodes from data, append them to a `DocumentFragment`, then attach once to the DOM to minimize reflows. Avoid `eval` and excessive synchronous layout thrashing.
 
 28) A typical REST GET to an API endpoint returns:
     A. UI HTML for browsers only
@@ -222,7 +222,7 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. Compiled WASM
     D. CSS styles
     Answer: B
-    Explanation: APIs return data; clients render it.
+    Explanation: REST APIs usually return structured data (JSON) that clients consume and render into the UI. HTML responses are possible but APIs generally provide data.
 
 29) The best place to attach event handlers for dynamically-created elements is often:
     A. Directly on each element only
@@ -230,12 +230,12 @@ JavaScript Part 3 — Async, Fetch, DOM (30)
     C. window
     D. document.head
     Answer: B
-    Explanation: Delegation uses bubbling to reduce listeners.
+    Explanation: Event delegation attaches a single listener to a parent and uses `event.target` to handle events from children, reducing memory and ensuring handlers work for future elements.
 
 30) Security note for user-supplied HTML:
-    A. It’s safe to trust if from same origin
+    A. Its safe to trust if from same origin
     B. Sanitize or avoid innerHTML; prefer textContent
     C. Use eval for fast parsing
     D. Nothing needed
     Answer: B
-    Explanation: Prevent XSS by not injecting raw HTML.
+    Explanation: Never insert untrusted HTML with `innerHTML`. Sanitize content server-side or use `textContent`/templating to avoid cross-site scripting (XSS) vulnerabilities.

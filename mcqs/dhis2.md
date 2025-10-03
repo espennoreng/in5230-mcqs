@@ -8,7 +8,7 @@ Platform, Tooling, Runtime, UI, Data Operations
    C. CSS-only components
    D. Mobile SDK
    Answer: B
-   Explanation: App Platform standardizes building, developing, and packaging DHIS2 web apps.
+    Explanation: The App Platform provides build tooling, scripts and conventions (often via the `d2` CLI) to scaffold, develop, and package DHIS2 web apps. Think of it like a DHIS2-focused create‑react‑app: it wires up bundling, dev servers, and packaging so apps follow a consistent structure.
 
 2) The d2 CLI can help you to:
    A. Create new apps and run dev servers
@@ -16,7 +16,7 @@ Platform, Tooling, Runtime, UI, Data Operations
    C. Manage PostgreSQL directly
    D. Configure NGINX on server
    Answer: A
-   Explanation: It scaffolds apps, runs dev, builds bundles.
+    Explanation: The `d2` CLI scaffolds new apps, runs local development servers (often with proxying to a DHIS2 instance), and helps build production bundles. It simplifies common dev workflows but does not replace the DHIS2 API or manage the database.
 
 3) The App Runtime is used at:
    A. Build time only
@@ -24,7 +24,7 @@ Platform, Tooling, Runtime, UI, Data Operations
    C. Server-side rendering only
    D. Database migration
    Answer: B
-   Explanation: Provides hooks like useDataQuery/useDataMutation inside React apps.
+    Explanation: The App Runtime runs in the browser and exposes hooks (e.g., `useDataQuery`, `useDataMutation`), auth/context, and helpers to interact with the DHIS2 Web API. It provides a standardized runtime environment, not just build-time utilities.
 
 4) The UI library provides:
    A. Design system components consistent with DHIS2
@@ -32,7 +32,7 @@ Platform, Tooling, Runtime, UI, Data Operations
    C. Database UI
    D. Node-only widgets
    Answer: A
-   Explanation: Reusable React components aligned with DHIS2 design.
+    Explanation: The UI library (`@dhis2/ui`) offers reusable React components (buttons, tables, modals, loaders) that enforce DHIS2 design and accessibility patterns, making it easy to build consistent interfaces.
 
 5) A typical flow to fetch data in a DHIS2 app is:
    A. window.fetch to any URL without auth
@@ -40,7 +40,7 @@ Platform, Tooling, Runtime, UI, Data Operations
    C. Read from localStorage only
    D. Server-side render only
    Answer: B
-   Explanation: Declare queries and execute with App Runtime hooks.
+    Explanation: Use `useDataQuery` (or equivalent runtime hooks) with a query object and variables. The runtime handles auth, caching, and standardized states (loading/error/data) so components remain declarative.
 
 6) useDataQuery returns state including:
    A. data, error, loading
@@ -48,7 +48,7 @@ Platform, Tooling, Runtime, UI, Data Operations
    C. only loading
    D. only error
    Answer: A
-   Explanation: Hook state drives UI (spinner, error, table).
+    Explanation: `useDataQuery` typically returns `data`, `loading`, and `error` (and sometimes `refetch`). Use these states to render loaders, handle errors, and display results safely.
 
 7) To write (POST/PUT/PATCH/DELETE) via App Runtime, you use:
    A. useDataQuery
@@ -56,7 +56,7 @@ Platform, Tooling, Runtime, UI, Data Operations
    C. useAlert
    D. useConfig
    Answer: B
-   Explanation: Mutations modify server data.
+    Explanation: `useDataMutation` is used to perform create/update/delete operations. It provides a mutate function and status flags; handle optimistic updates or refetch strategies to keep UI in sync.
 
 8) The UI library’s components like Table, CircularLoader are used to:
    A. Present data consistently and indicate loading states
@@ -64,7 +64,7 @@ Platform, Tooling, Runtime, UI, Data Operations
    C. Create server logs
    D. Minify bundles
    Answer: A
-   Explanation: Present and feedback UI elements.
+    Explanation: Components such as `Table` and `CircularLoader` let you show data and loading states in a consistent, accessible way, matching the DHIS2 design language and improving UX.
 
 9) Best practice when presenting query results:
    A. Ignore loading state
@@ -72,7 +72,7 @@ Platform, Tooling, Runtime, UI, Data Operations
    C. Always retry silently
    D. Use alert() for errors only
    Answer: B
-   Explanation: Drive UI from hook state.
+    Explanation: Drive the UI from the hook's states: show a loader when `loading` is true, render an error message (or alert) when `error` exists, and render the data when available. This gives predictable UX and handles transient network issues.
 
 10) When building forms in the DHIS2 app course, forms were implemented with:
     A. React Final Form
@@ -80,7 +80,7 @@ Platform, Tooling, Runtime, UI, Data Operations
     C. HTML only
     D. jQuery
     Answer: A
-    Explanation: Course uses React Final Form for inputs/validation.
+    Explanation: The course uses React Final Form to manage form state, validation, and submission flows. It's a popular choice for complex forms with validation rules.
 
 11) Mutations pattern in the course Insert form was:
     A. Direct DOM manipulation
@@ -88,7 +88,7 @@ Platform, Tooling, Runtime, UI, Data Operations
     C. Global window variable assignment
     D. CSS change
     Answer: B
-    Explanation: Submit triggers mutation with variable payload.
+    Explanation: The form's onSubmit handler gathered validated values and called a `useDataMutation` mutate function with the variables payload; on success the UI was updated or refetched.
 
 12) Connecting to a DHIS2 instance during development typically requires:
     A. Hardcoding tokens in source
@@ -96,7 +96,7 @@ Platform, Tooling, Runtime, UI, Data Operations
     C. Disabling CORS in browser
     D. Embedding the server binary
     Answer: B
-    Explanation: Apps get server base URL/config from runtime context or d2 dev setup.
+    Explanation: For local development you configure the runtime or dev server proxy with the DHIS2 instance `baseUrl` and auth (or use a dev token). Avoid hardcoding credentials; the runtime/dev tooling helps provide correct context.
 
 13) The DHIS2 Web API is primarily:
     A. GraphQL-only
@@ -104,7 +104,7 @@ Platform, Tooling, Runtime, UI, Data Operations
     C. SOAP
     D. WebSocket-only
     Answer: B
-    Explanation: REST JSON endpoints under /api.
+    Explanation: DHIS2 exposes RESTful JSON endpoints under `/api` for resources such as `dataElements` and `organisationUnits`. Some tooling layers abstract queries, but the core API is REST.
 
 14) Declaring a query for useDataQuery involves:
     A. A query object with resource, params, id fields etc.
@@ -112,7 +112,7 @@ Platform, Tooling, Runtime, UI, Data Operations
     C. SQL inside the component
     D. A YAML file
     Answer: A
-    Explanation: Query object models endpoint and parameters.
+    Explanation: Queries are typically declared as objects specifying resource path, fields, and params so the runtime can construct requests and apply caching. This is more structured than passing raw URLs everywhere.
 
 15) The Query Playground referenced by the course is helpful to:
     A. Design SQL schemas
@@ -120,7 +120,7 @@ Platform, Tooling, Runtime, UI, Data Operations
     C. Deploy apps
     D. Test CSS
     Answer: B
-    Explanation: Explore query shapes, fields, variables.
+    Explanation: The Query Playground lets you experiment with query shapes, fields and parameters interactively. It's a quick way to prototype requests before wiring them into the UI.
 
 16) To present tabular results quickly you can use:
     A. <table> only
@@ -128,7 +128,7 @@ Platform, Tooling, Runtime, UI, Data Operations
     C. console.table only
     D. <grid>
     Answer: B
-    Explanation: UI library tables match DHIS2 design.
+    Explanation: Use `@dhis2/ui` table components (e.g., `Table`, `TableHead`, `TableRow`) to render tabular data quickly and consistently, including built-in accessibility and styling.
 
 17) useAlert is useful for:
     A. Styling tables
@@ -136,7 +136,7 @@ Platform, Tooling, Runtime, UI, Data Operations
     C. Managing global state
     D. Formatting dates
     Answer: B
-    Explanation: Provide user feedback after operations.
+    Explanation: `useAlert` provides a way to show transient feedback messages (success, error, info) to users after actions such as saves or deletes; it improves UX by making outcomes visible.
 
 18) useConfig gives you:
     A. DHIS2 server baseUrl and system configuration
@@ -144,7 +144,7 @@ Platform, Tooling, Runtime, UI, Data Operations
     C. UI theme
     D. User password
     Answer: A
-    Explanation: Context of runtime instance.
+    Explanation: `useConfig` exposes runtime configuration such as the DHIS2 server `baseUrl`, instance settings and other config values that components may need to operate correctly.
 
 19) The recommended folder to store persistent small key/value app data on the server is:
     A. /storage/local
@@ -152,7 +152,7 @@ Platform, Tooling, Runtime, UI, Data Operations
     C. Browser cookies only
     D. CSV files
     Answer: B
-    Explanation: DataStore endpoints persist app-specific data.
+    Explanation: The DHIS2 Data Store endpoints allow apps to persist small key/value data server-side under the app's namespace. This is preferred over storing sensitive or shared data in the client.
 
 20) When submitting an app to the App Hub, you must:
     A. Push to any Git repo
@@ -160,7 +160,7 @@ Platform, Tooling, Runtime, UI, Data Operations
     C. Include a database dump
     D. Submit server logs
     Answer: B
-    Explanation: App Hub expects built artifact and metadata per guidelines.
+    Explanation: App Hub submissions require a built bundle, a valid `manifest.json` with metadata and permissions, and compliance with the submission guidelines so the app can be installed and trusted by DHIS2 instances.
 
 Fetching/Presenting/Mutating details
 
